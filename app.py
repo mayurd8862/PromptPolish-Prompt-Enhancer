@@ -5,6 +5,12 @@ import os
 
 load_dotenv()
 
+# for streamlit app deployment
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
 # Initialize LLM
 llm = LLM(
     model="groq/llama-3.3-70b-versatile",
