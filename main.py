@@ -1,4 +1,3 @@
-import streamlit as st
 from crewai import Agent, Task, Crew, Process, LLM
 from dotenv import load_dotenv
 import os
@@ -11,14 +10,6 @@ llm = LLM(
     temperature=0.7
 )
 
-st.title("⚡ PromptPolish")
-st.subheader("",divider= "rainbow")
-
-st.subheader("😎 Perfect your prompts with precision and speed !!")
-
-st.markdown("PromptPolish ✨ is a cutting-edge tool designed to enhance and refine prompts for large language models (LLMs). By optimizing prompt clarity and relevance, PromptPolish ensures that AI interactions are more accurate and effective, enabling better outcomes for your natural language processing tasks. 🚀")
-
-
 # Create the agents
 prompt_analyzer = Agent(
     role="Prompt Engineering Expert",
@@ -27,7 +18,7 @@ prompt_analyzer = Agent(
     and LLM behavior. You excel at identifying what makes prompts effective and
     suggesting concrete improvements.""",
     llm=llm,
-    # verbose=True
+    verbose=True
 )
 
 prompt_optimizer = Agent(
@@ -37,7 +28,7 @@ prompt_optimizer = Agent(
     restructure and refine prompts for optimal results. You understand the nuances 
     of different LLM models and how to craft prompts that yield the best responses.""",
     llm=llm,
-    # verbose=True
+    verbose=True
 )
 
 # Create the tasks
@@ -62,7 +53,6 @@ optimization_task = Task(
     2. Adding necessary context and constraints
     3. Restructuring for better flow
     4. Ensuring outputs are clearly specified
-    5. prompt should be not be very long.
     
     Provide the optimized prompt""",
     expected_output="""An optimized version of the prompt.""",
@@ -77,24 +67,10 @@ crew = Crew(
     verbose=True
 )
 
-# Create a text area for user input
-input_prompt = st.text_area(
-    label="Enter your prompt:",
-    placeholder="Type your prompt here...",
-)
+# Sample prompt to optimize
+input_prompt = """what is machine learning. explain to 10 years old child"""
 
-btn = st.button("Enhance")
-
-if btn:
-# Display the entered prompt
-    if input_prompt:
-        # Sample prompt to optimize
-        # input_prompt = """what is machine learning. explain to 10 years old child"""
-
-        # Kick off the crew
-        result = crew.kickoff(inputs={'input_prompt': input_prompt})
-        
-        st.markdown(result)
-
-        # print(result)
-
+# Kick off the crew
+result = crew.kickoff(inputs={'input_prompt': input_prompt})
+print("\nFinal Result:",'\n')
+print(result)
